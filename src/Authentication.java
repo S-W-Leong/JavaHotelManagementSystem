@@ -94,23 +94,37 @@ public class Authentication {
         return true;
     }
 
+    private void displayRequirements() {
+        System.out.println("\n                  === Guest Registration ===\n");
+        System.out.println("╔════════════════════════════════════════════════════════════════╗");
+        System.out.println("║                    REGISTRATION REQUIREMENTS                   ║");
+        System.out.println("╠════════════════════════════════════════════════════════════════╣");
+        System.out.println("║                                                                ║");
+        System.out.println("║  USERNAME REQUIREMENTS:                                        ║");
+        System.out.println("║  • Length: " + MIN_USERNAME_LENGTH + "-" + MAX_USERNAME_LENGTH + " characters" + 
+            " ".repeat(MAX_USERNAME_LENGTH) + "                 ║");
+        System.out.println("║  • Characters: letters, numbers, and underscores only          ║");
+        System.out.println("║                                                                ║");
+        System.out.println("║  PASSWORD REQUIREMENTS:                                        ║");
+        System.out.println("║  • Minimum length: " + MIN_PASSWORD_LENGTH + " characters" + 
+            " ".repeat(MAX_USERNAME_LENGTH) + "            ║");
+        System.out.println("║  • Must contain:                                               ║");
+        System.out.println("║    - At least one uppercase letter (A-Z)                       ║");
+        System.out.println("║    - At least one lowercase letter (a-z)                       ║");
+        System.out.println("║    - At least one number (0-9)                                 ║");
+        System.out.println("║    - At least one special character (!@#$%^&* etc.)            ║");
+        System.out.println("║                                                                ║");
+        System.out.println("╚════════════════════════════════════════════════════════════════╝\n");
+    }
+
     public User signUp() {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("\n--- Guest Registration ---");
-        System.out.println("Username requirements:");
-        System.out.println("- Between " + MIN_USERNAME_LENGTH + " and " + MAX_USERNAME_LENGTH + " characters");
-        System.out.println("- Can only contain letters, numbers, and underscores");
-        System.out.println("\nPassword requirements:");
-        System.out.println("- At least " + MIN_PASSWORD_LENGTH + " characters long");
-        System.out.println("- At least one uppercase letter");
-        System.out.println("- At least one lowercase letter");
-        System.out.println("- At least one number");
-        System.out.println("- At least one special character");
+        displayRequirements();
         
         // Get username with validation
         String username;
         do {
-            System.out.print("\nEnter desired username: ");
+            System.out.print("Enter desired username: ");
             username = scanner.nextLine().trim();
         } while (!isValidUsername(username));
 
@@ -138,7 +152,7 @@ public class Authentication {
         users.put(username, Map.of("password", password, "role", "guest"));
         Guest newGuest = new Guest(username, password, new ArrayList<>(), new HashMap<>());
         userObjects.put("guest", newGuest);
-        System.out.println("\nGuest account created successfully!");
+        System.out.println("\n✓ Guest account created successfully!");
         return newGuest;
     }
 } 
