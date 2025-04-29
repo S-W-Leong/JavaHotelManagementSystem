@@ -122,31 +122,28 @@ public class Authentication {
         displayRequirements();
         
         // Get username with validation
-        String username;
-        do {
-            System.out.print("Enter desired username: ");
-            username = scanner.nextLine().trim();
-        } while (!isValidUsername(username));
+        System.out.print("Enter desired username: ");
+        String username = scanner.nextLine().trim();
+        if (!isValidUsername(username)) {
+            System.out.println("Returning to guest menu...");
+            return null;
+        }
 
         // Get password with validation
-        String password;
-        do {
-            System.out.print("Enter password: ");
-            password = scanner.nextLine();
-            if (!isValidPassword(password)) {
-                System.out.println("Please try again with a stronger password.");
-            }
-        } while (!isValidPassword(password));
+        System.out.print("Enter password: ");
+        String password = scanner.nextLine();
+        if (!isValidPassword(password)) {
+            System.out.println("Returning to guest menu...");
+            return null;
+        }
 
         // Confirm password
-        String confirmPassword;
-        do {
-            System.out.print("Confirm password: ");
-            confirmPassword = scanner.nextLine();
-            if (!password.equals(confirmPassword)) {
-                System.out.println("Passwords do not match. Please try again.");
-            }
-        } while (!password.equals(confirmPassword));
+        System.out.print("Confirm password: ");
+        String confirmPassword = scanner.nextLine();
+        if (!password.equals(confirmPassword)) {
+            System.out.println("Passwords do not match. \nReturning to guest menu...");
+            return null;
+        }
 
         // Create guest account
         users.put(username, Map.of("password", password, "role", "guest"));

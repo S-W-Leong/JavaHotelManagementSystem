@@ -7,6 +7,23 @@ class HotelSystem {
     private List<Map<String, String>> housekeepingSchedule;
     private Authentication auth;
     private Map<String, Map<String, String>> userCredentials;
+    private void displayLogo() {
+        System.out.println("\n");
+        System.out.println("    ██╗ █████╗ ██████╗  ██████╗ ███████╗██████╗ ██╗   ██╗ ██████╗");
+        System.out.println("    ██║██╔══██╗██╔══██╗██╔═══██╗██╔════╝██╔══██╗██║   ██║██╔════╝");
+        System.out.println("    ██║███████║██████╔╝██║   ██║█████╗  ██████╔╝██║   ██║██║      ");
+        System.out.println("    ██║██╔══██║██╔══██╗██║   ██║██╔══╝  ██╔══██╗██║   ██║██║      ");
+        System.out.println("    ██║██║  ██║██║  ██║╚██████╔╝███████╗██║  ██║╚██████╔╝╚██████╗");
+        System.out.println("    ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝ ╚══════╝╚═╝  ╚═╝ ╚═════╝  ╚═════╝");
+        System.out.println("                                                                  ");
+        System.out.println("             ██╗  ██╗ ██████╗ ████████╗███████╗██╗     ");
+        System.out.println("             ██║  ██║██╔═══██╗╚══██╔══╝██╔════╝██║     ");
+        System.out.println("             ███████║██║   ██║   ██║   █████╗  ██║     ");
+        System.out.println("             ██╔══██║██║   ██║   ██║   ██╔══╝  ██║     ");
+        System.out.println("             ██║  ██║╚██████╔╝   ██║   ███████╗███████╗");
+        System.out.println("             ╚═╝  ╚═╝ ╚═════╝    ╚═╝   ╚══════╝╚══════╝");
+        System.out.println("\n");
+    }
 
     public HotelSystem() {
         // Initialize data
@@ -33,6 +50,7 @@ class HotelSystem {
     }
 
     public void start() {
+        displayLogo();
         System.out.println("Welcome to the Hotel Management System!");
         Scanner scanner = new Scanner(System.in);
         while (true) {
