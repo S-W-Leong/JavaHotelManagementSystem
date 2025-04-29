@@ -5,6 +5,8 @@ class HotelSystem {
     private List<Reservation> reservations;
     private Map<String, Integer> rooms;
     private List<Map<String, String>> housekeepingSchedule;
+    private Authentication auth;
+    private Map<String, Map<String, String>> userCredentials;
 
     public HotelSystem() {
         // Initialize data
@@ -19,37 +21,34 @@ class HotelSystem {
         users.put("guest", new Guest("guest1", "guest123", reservations, rooms));
         users.put("manager", new Manager("manager1", "manager123", "Manager", housekeepingSchedule));
         users.put("housekeeping", new HousekeepingStaff("staff1", "staff123", "Housekeeping", housekeepingSchedule));
+
+        // Initialize user credentials
+        userCredentials = new HashMap<>();
+        userCredentials.put("guest1", Map.of("password", "guest123", "role", "guest"));
+        userCredentials.put("manager1", Map.of("password", "manager123", "role", "manager"));
+        userCredentials.put("staff1", Map.of("password", "staff123", "role", "housekeeping"));
+
+        // Initialize authentication
+        auth = new Authentication(userCredentials, users);
     }
 
     public void start() {
         System.out.println("Welcome to the Hotel Management System!");
         Scanner scanner = new Scanner(System.in);
         while (true) {
-            System.out.println("\n--- Login ---");
-            System.out.println("1. Guest Login");
-            System.out.println("2. Staff Login");
+            System.out.println("\n--- Select User Type ---");
+            System.out.println("1. Guest");
+            System.out.println("2. Staff");
             System.out.println("3. Exit");
             System.out.print("Enter your choice: ");
             String choice = scanner.nextLine();
 
             switch (choice) {
                 case "1":
-                    User guest = users.get("guest");
-                    if (guest.login(getUsers())) {
-                        guest.mainMenu();
-                    }
+                    handleGuestFlow();
                     break;
                 case "2":
-                    System.out.print("Enter staff type (manager/housekeeping): ");
-                    String staffType = scanner.nextLine().toLowerCase();
-                    if (users.containsKey(staffType)) {
-                        User staff = users.get(staffType);
-                        if (staff.login(getUsers())) {
-                            staff.mainMenu();
-                        }
-                    } else {
-                        System.out.println("Invalid staff type.");
-                    }
+                    handleStaffFlow();
                     break;
                 case "3":
                     System.out.println("Exiting the system. Goodbye!");
@@ -60,11 +59,60 @@ class HotelSystem {
         }
     }
 
-    private Map<String, Map<String, String>> getUsers() {
-        Map<String, Map<String, String>> users = new HashMap<>();
-        users.put("guest1", Map.of("password", "guest123", "role", "guest"));
-        users.put("manager1", Map.of("password", "manager123", "role", "manager"));
-        users.put("staff1", Map.of("password", "staff123", "role", "housekeeping"));
-        return users;
+    private void handleGuestFlow() {
+        Scanner scanner = new Scanner(System.in);
+        while (true) {
+            System.out.println("\n--- Guest Menu ---");
+            System.out.println("1. Sign In");
+            System.out.println("2. Sign Up");
+            System.out.println("3. Back to Main Menu");
+            System.out.print("Enter your choice: ");
+            String choice = scanner.nextLine();
+
+            User loggedInUser = null;
+            switch (choice) {
+                case "1":
+                    loggedInUser = auth.signIn("guest");
+                    if (loggedInUser != null) {
+                        loggedInUser.mainMenu();
+                    }
+                    break;
+                case "2":
+                    loggedInUser = auth.signUp();
+                    if (loggedInUser != null) {
+                        loggedInUser.mainMenu();
+                    }
+                    break;
+                case "3":
+                    return;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+        }
+    }
+
+    private void handleStaffFlow() {
+        Scanner scanner = new Scanner(System.in);
+        while (true) {
+            System.out.println("\n--- Staff Menu ---");
+            System.out.println("1. Sign In");
+            System.out.println("2. Back to Main Menu");
+            System.out.print("Enter your choice: ");
+            String choice = scanner.nextLine();
+
+            User loggedInUser = null;
+            switch (choice) {
+                case "1":
+                    loggedInUser = auth.signIn("staff");
+                    if (loggedInUser != null) {
+                        loggedInUser.mainMenu();
+                    }
+                    break;
+                case "2":
+                    return;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+        }
     }
 }
