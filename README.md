@@ -1,6 +1,8 @@
 # JavaHotelManagementSystem
 This is our sem 3 java assignment :D Feel free to comment
 
+edit 30/4/2025: this has become a legacy system, a new one was already created!
+
 ## Folder Structure
 
 The workspace contains two folders by default, where:
