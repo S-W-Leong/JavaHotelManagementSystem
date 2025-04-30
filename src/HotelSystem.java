@@ -7,6 +7,8 @@ class HotelSystem {
     private List<Map<String, String>> housekeepingSchedule;
     private Authentication auth;
     private Map<String, Map<String, String>> userCredentials;
+    private Report report;
+
     private void displayLogo() {
         System.out.println("\n");
         System.out.println("    ██╗ █████╗ ██████╗  ██████╗ ███████╗██████╗ ██╗   ██╗ ██████╗");
@@ -32,11 +34,19 @@ class HotelSystem {
         rooms.put("Single", 20);
         rooms.put("Double", 20);
         rooms.put("Suite", 10);
+        housekeepingSchedule = new ArrayList<>();
+
+        // Initialize report system
+        report = new Report(reservations, rooms, housekeepingSchedule);
 
         // Initialize users
         users = new HashMap<>();
+        Manager manager = new Manager("manager1", "manager123", "Manager", housekeepingSchedule);
+        manager.setReservations(reservations);
+        manager.setRooms(rooms);
+        manager.setReport(report);
         users.put("guest", new Guest("guest1", "guest123", reservations, rooms));
-        users.put("manager", new Manager("manager1", "manager123", "Manager", housekeepingSchedule));
+        users.put("manager", manager);
         users.put("housekeeping", new HousekeepingStaff("staff1", "staff123", "Housekeeping", housekeepingSchedule));
 
         // Initialize user credentials

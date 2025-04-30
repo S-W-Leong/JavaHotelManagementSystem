@@ -150,11 +150,32 @@ class Guest extends User {
     }
 
     private void viewRoomAvailability() {
-        System.out.println("\n--- Room Availability ---");
-        System.out.printf("%-10s %-10s %s\n", "Type", "Available", "Price/Night");
-        rooms.forEach((type, count) -> 
-            System.out.printf("%-10s %-10d RM%-10d\n", type, count, ROOM_PRICES.get(type))
-        );
+        System.out.println("\n                  === Room Availability ===\n");
+        System.out.println("╔════════════════════════════════════════════════════════════════╗");
+        System.out.println("║                    ROOM INFORMATION                            ║");
+        System.out.println("╠════════════════════════════════════════════════════════════════╣");
+        System.out.println("║                                                                ║");
+        System.out.println("║  ROOM TYPES AND PRICES:                                        ║");
+        
+        for (Map.Entry<String, Integer> entry : rooms.entrySet()) {
+            String roomType = entry.getKey();
+            int available = entry.getValue();
+            int price = ROOM_PRICES.get(roomType);
+            
+            System.out.println("║    " + padRight(roomType + " Rooms:", 52) + "        ║");
+            System.out.println("║    - Available: " + padRight(String.valueOf(available), 47) + " ║");
+            System.out.println("║    - Price/Night: RM" + padRight(String.valueOf(price), 44) + "   ║");
+        }
+        
+        System.out.println("║                                                                ║");
+        System.out.println("║  NOTE: Prices are subject to change.                          ║");
+        System.out.println("║  Contact reception for special rates and promotions.           ║");
+        System.out.println("║                                                                ║");
+        System.out.println("╚════════════════════════════════════════════════════════════════╝\n");
+    }
+
+    private String padRight(String str, int length) {
+        return str + " ".repeat(Math.max(0, length - str.length()));
     }
 
     private void manageReservations() {
